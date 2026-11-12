@@ -173,10 +173,15 @@ async function runJob(job) {
     }
     else if (job.type === "image") {
       // Hand the words to our Python AI runner script.
+      // Prefer the AI venv python (host-agent/.venv) if it exists - that is
+      // where torch/diffusers are installed. Fall back to normal python3.
       resultFile = path.join(jobFolder, "result.png");
       const script = path.join(AGENT_FOLDER, "runners", "image_ai.py");
+      const venvPython = path.join(AGENT_FOLDER, ".venv", "bin", "python");
+      const pythonToUse = fs.existsSync(venvPython) ? venvPython : "python3";
 
-      const run = await runCommand("python3", [script, job.prompt, resultFile], 600_000);
+      // 30 minute limit: CPU image generation is slow, GPU is seconds.
+      const run = await runCommand(pythonToUse, [script, job.prompt, resultFile], 1_800_000);
       if (!run.ok || !fs.existsSync(resultFile)) {
         return { ok: false, error: "Image generation failed: " + run.stderr.slice(0, 500) };
       }

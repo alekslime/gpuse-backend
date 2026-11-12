@@ -37,8 +37,17 @@ def main():
         print("Original error:", error, file=sys.stderr)
         sys.exit(1)
 
-    # Step 3: pick GPU if we have one, otherwise CPU (CPU works, just slow)
-    device = "cuda" if torch.cuda.is_available() else "cpu"
+    # Step 3: pick GPU if it is new enough, otherwise CPU (CPU works, slower)
+    # Modern torch dropped very old GPUs (compute capability below 6.0,
+    # e.g. Quadro M3000M). Asking CUDA to run on one just crashes, so we
+    # check the capability number first and honestly fall back to CPU.
+    device = "cpu"
+    if torch.cuda.is_available():
+        major, _minor = torch.cuda.get_device_capability(0)
+        if major >= 6:
+            device = "cuda"
+        else:
+            print(f"GPU is too old for modern torch (capability {major}.x), using CPU")
     print(f"Using device: {device}")
 
     # Step 4: load the model. small + fast model, good for demos.
@@ -52,7 +61,9 @@ def main():
     pipe = pipe.to(device)
 
     # Step 5: generate ONE image from the prompt text
-    image = pipe(prompt, num_inference_steps=25).images[0]
+    # 20 steps + 512x512 is the CPU-friendly setting: a few minutes here,
+    # a few seconds on a modern GPU. Same code path either way.
+    image = pipe(prompt, num_inference_steps=20, width=512, height=512).images[0]
 
     # Step 6: save it exactly where agent.js told us to
     image.save(output_file)

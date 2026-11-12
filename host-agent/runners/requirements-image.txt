@@ -1,0 +1,6 @@
+# AI image runner needs (install into host-agent/.venv, see README/LEARN)
+torch
+diffusers
+transformers
+accelerate
+safetensors
