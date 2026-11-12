@@ -38,6 +38,9 @@ var app = builder.Build();
 
 // Files in wwwroot/ are the website itself (our copy of the GPUse pages).
 // Example: wwwroot/browse.html is shown when you open /browse.html
+// UseDefaultFiles = opening just "/" shows index.html (found 2026-11-12:
+// without this line the bare tunnel link gave a 404).
+app.UseDefaultFiles();
 app.UseStaticFiles();
 
 // Where we store things on disk:
