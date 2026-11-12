@@ -1,0 +1,10 @@
+{
+  "name": "gpuse-host-agent",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "GPUse host agent - runs jobs from the GPUse server on this computer. No npm packages needed, only Node 18+.",
+  "scripts": {
+    "start": "node agent.js"
+  }
+}

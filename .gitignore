@@ -1,0 +1,9 @@
+# database + results (created at runtime)
+server/data/
+# host identity + work files
+host-agent/host-token.json
+host-agent/work/
+# build outputs
+server/bin/
+server/obj/
+node_modules/

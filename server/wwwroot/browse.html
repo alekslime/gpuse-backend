@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GPUse — Browse GPUs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/browse.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <div class="wrap">
+
+    <header class="nav">
+      <a class="logo" href="index.html"><img src="assets/logo.svg" alt="GPUse"></a>
+      <nav class="nav-links">
+        <a href="browse.html" class="active">Browse GPUs</a>
+        <a href="create.html">Create</a>
+        <a href="my-jobs.html">My jobs</a>
+        <a href="host.html">Host</a>
+      </nav>
+      <a class="btn-primary" href="login.html">Sign in</a>
+    </header>
+
+    <main>
+      <div class="page-head">
+        <h1>Browse GPUs</h1>
+        <p class="sub">Real PCs, real prices. Pay per result, not per month.</p>
+      </div>
+
+      <div class="search-row">
+        <input class="search-input" type="text" placeholder="Describe what you want to make…">
+        <a class="btn-primary" href="#">Find a GPU</a>
+      </div>
+
+      <div class="chips">
+        <a class="btn-primary" href="#">All</a>
+        <a class="btn" href="#">Image</a>
+        <a class="btn" href="#">Video</a>
+        <a class="btn" href="#">Audio</a>
+        <a class="btn" href="#">3D</a>
+        <a class="btn" href="#">Online now</a>
+        <a class="btn" href="#">Under $0.05</a>
+      </div>
+
+      <!-- Live hosts from the server (filled by js/api.js). Same card classes as before. -->
+      <div class="cards3" id="gpu-cards" style="margin-top: 0;">
+        <p class="note">Loading GPUs…</p>
+      </div>
+
+      <p class="note" id="gpu-count"></p>
+
+      <!-- Send a real job to a real host computer -->
+      <div class="panel" id="send-job" style="margin-top: 24px;">
+        <h2>Send a job</h2>
+        <p class="sub">Pick a host, pick a type, write the prompt. The host agent runs it and the result lands in My jobs.</p>
+
+        <div class="field-group">
+          <label class="flabel" for="job-host">HOST</label>
+          <select class="field" id="job-host"></select>
+        </div>
+
+        <div class="field-group">
+          <label class="flabel" for="job-type">TYPE</label>
+          <select class="field" id="job-type">
+            <option value="python">python — prompt is Python code, result is what it prints</option>
+            <option value="image">image — prompt is words, result is a real AI picture (PNG)</option>
+          </select>
+        </div>
+
+        <div class="field-group">
+          <label class="flabel" for="job-prompt">PROMPT</label>
+          <textarea class="field" id="job-prompt" rows="4">print("hello from the host computer")</textarea>
+        </div>
+
+        <button class="btn-primary btn-block" id="job-send" type="button">Run job</button>
+        <p class="note" id="job-msg"></p>
+      </div>
+    </main>
+
+    <footer>
+      <p>GPUse — Make anything. Powered by idle GPUs.</p>
+      <p>Help · Terms · Privacy</p>
+    </footer>
+
+  </div>
+  <script src="js/api.js?v=3"></script>
+</body>
+</html>
