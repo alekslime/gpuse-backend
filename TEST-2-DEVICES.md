@@ -26,6 +26,21 @@ Work down this list. Don't skip ahead: each step proves one thing.
       `GPUSE_SERVER=https://…trycloudflare.com node agent.js`
 - [x] Full job round-trip over the internet (agent claimed + returned job #5 through the tunnel from this PC; nobody touched a second device yet)
 
+## Step 2b — Real second device as RENTER — DONE 2026-11-12
+This is the reverse split: server + host agent stayed on this PC
+(Quadro M3000M), the second device (Ubuntu laptop, different network)
+only used a browser through the tunnel link. No agent install needed there.
+- [x] Renter opened the tunnel link (bare `/` gave 404 → fixed same day
+      with `UseDefaultFiles()` in Program.cs; `/index.html` worked before the fix)
+- [x] Job #6 `print("hello from the host computer")` → result `6.txt`
+      downloaded by the renter on the second device, contents confirmed
+- [x] Job #7 failed honestly: pasted code had extra indentation →
+      `IndentationError` shown to the renter (failure path works remotely too)
+- [x] Job #8 heavy test: 8,000,000 SHA-256 hashes in 5.9s on this host,
+      result downloaded and confirmed on the second device
+- Still open (different test): second device as HOST on another network
+  (Step 2 above) — the renter-side proof is done, host-side is not.
+
 ## Step 3 — Real AI image (proves the GPU bit)
 - [ ] On device #2: `pip install torch diffusers transformers accelerate`
       (CUDA torch build if it has an NVIDIA GPU)
