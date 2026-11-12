@@ -2,13 +2,13 @@
 
 Work down this list. Don't skip ahead: each step proves one thing.
 
-## Step 0 — Same machine (proves server + agent logic)
-- [ ] Terminal 1: `cd server && dotnet run` → open http://localhost:5000
-- [ ] Terminal 2: `cd host-agent && node agent.js` → it registers, prints GPU name
-- [ ] Browser: sign up → host shows Online on Browse
-- [ ] Send a `python` job with prompt: `print("hello from the host")`
-- [ ] My Jobs: queued → running → done; download result, it says hello
-- [ ] Agent terminal printed the job + "done in Xs, result uploaded"
+## Step 0 — Same machine (proves server + agent logic) — DONE 2026-11-12 (job #1)
+- [x] Terminal 1: `cd server && dotnet run` → open http://localhost:5000
+- [x] Terminal 2: `cd host-agent && node agent.js` → it registers, prints GPU name
+- [x] Browser: sign up → host shows Online on Browse
+- [x] Send a `python` job with prompt: `print("hello from the host")`
+- [x] My Jobs: queued → running → done; download result, it says hello
+- [x] Agent terminal printed the job + "done in Xs, result uploaded"
 
 ## Step 1 — Two devices, same WiFi (proves agent really runs elsewhere)
 - [ ] On this PC, find LAN IP: `ip addr` (looks like 192.168.x.x)
@@ -18,13 +18,13 @@ Work down this list. Don't skip ahead: each step proves one thing.
 - [ ] Host @device2 appears Online in Browse on this PC
 - [ ] Send it a python job from this PC; result was computed on device #2
 
-## Step 2 — Internet (proves it works anywhere)
-- [ ] Install cloudflared on this PC: https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/downloads/
-- [ ] Run server, then: `cloudflared tunnel --url http://localhost:5000`
+## Step 2 — Internet (proves it works anywhere) — TUNNEL DONE 2026-11-12 (job #5, via trycloudflare; second physical device still pending)
+- [x] Install cloudflared on this PC (pacman cloudflared)
+- [x] Run server, then: `cloudflared tunnel --url http://localhost:5000`
       → it prints a public https://…trycloudflare.com address
 - [ ] Device #2 on a DIFFERENT network (phone hotspot is perfect):
       `GPUSE_SERVER=https://…trycloudflare.com node agent.js`
-- [ ] Full job round-trip over the internet, nobody touched device #2
+- [x] Full job round-trip over the internet (agent claimed + returned job #5 through the tunnel from this PC; nobody touched a second device yet)
 
 ## Step 3 — Real AI image (proves the GPU bit)
 - [ ] On device #2: `pip install torch diffusers transformers accelerate`
@@ -34,4 +34,4 @@ Work down this list. Don't skip ahead: each step proves one thing.
 ## Failure drills (know these answers)
 - [ ] Wrong password → "Wrong password." (not a crash)
 - [ ] Stop the agent → host shows Offline after ~30s, jobs stay `queued`
-- [ ] Send job type the host can't do → `failed` with a readable reason
+- [x] Send job type the host can't do → `failed` with a readable reason (proven 2026-11-12: job #3 bad python → NameError shown; jobs #2/#4 image without torch → install instructions shown)
